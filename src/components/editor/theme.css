@@ -1,34 +1,37 @@
 .editor-paragraph {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 25px;
+  margin-bottom: -5px;
 }
 
 .editor-heading-h1 {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 28px;
+  font-weight: 650;
   line-height: 25px;
-  margin-bottom: -2px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.131);
 }
 
 .editor-heading-h2 {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 650;
   line-height: 28px;
-  margin-bottom: -5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.131);
 }
 
 .editor-heading-h3 {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 650;
   line-height: 25px;
-  margin-bottom: -5px;
+  margin-bottom: -6px;
 }
 
 .editor-heading-h4 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   line-height: 20px;
-  color: #0d0d0d;
+  margin-bottom: -3px;
 }
 
 .editor-link {
@@ -41,34 +44,40 @@
   color: #9333ea;
 }
 
-strong {
+.editor-textBold {
   font-weight: 600;
 }
 
-.markdown-code {
-  font-size: 12px;
-  line-height: 1.5;
-  background-color: #d7b870;
-  display: block;
-  border-radius: 10px;
-  padding: 10px;
+.editor-textItalic {
+  font-style: italic;
+}
+
+.editor-textUnderline {
+  text-decoration: underline;
+}
+
+.editor-textCode {
+  font-family: "Google Sans Code", monospace;
+  background-color: #ececec;
+  padding: 1px 5px;
+  border-radius: 6px;
 }
 
 .editor-quote {
-  margin: 0;
+  font-size: 15px;
   color: rgb(81, 82, 85);
-  border-left-color: rgb(206, 208, 212);
-  border-left-width: 4px;
-  border-left-style: solid;
+  border-left: 4px solid #c7c4c4d9;
   padding-left: 12px;
+  margin: 20px 0 5px 0;
+  line-height: 25px;
 }
 
 .editor-list-ol {
   padding: 0;
   margin: 0;
-  margin-left: 16px;
+  margin-left: 20px;
   list-style-type: decimal;
-  margin-top: 12px;
+  margin-bottom: 30px;
 }
 
 .editor-list-ul {
@@ -76,15 +85,18 @@ strong {
   margin: 0;
   margin-left: 16px;
   list-style-type: disc;
-  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.editor-list-ol,
+.editor-list-ul {
+  margin-top: 15px;
+  font-size: 15px;
 }
 
 .editor-list-ul li {
   margin-left: 12px;
   line-height: 30px;
-}
-.editor-list-ul li::marker {
-  color: #5d5d5d;
 }
 
 .editor-list-ol li {
@@ -93,8 +105,7 @@ strong {
 }
 
 .editor-list-ol li::marker {
-  color: #5d5d5d;
-  font-weight: 700;
+  font-weight: 550;
 }
 
 .editor-listitem {
@@ -108,55 +119,31 @@ strong {
 .editor-code {
   display: block;
   background: #f9f8f7 !important;
-  padding: 30px 30px;
+  padding: 30px 30px 30px 30px;
   border-radius: 8px;
-  font-family: "Fira Code", "JetBrains Mono", monospace;
+  font-family: "Google Sans Code", monospace;
   font-size: 14px;
   line-height: 1.5;
   white-space: pre;
   overflow-x: auto;
+  position: relative;
+  margin-top: 10px;
 }
 
-Comments,
-cdata,
-prolog,
-doctype .editor-tokenComment {
-  color: #6a9955;
-  font-style: italic;
+.editor-code::after {
+  content: attr(data-highlight-language);
+  font-family: "Roboto", sans-serif;
+  font-weight: 450;
+  font-size: 13px;
+  text-transform: capitalize;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  color: black;
+  opacity: 0;
+  transition: opacity 0.15s;
 }
 
-/* Keywords, at-rules */
-.editor-tokenAttr {
-  color: #569cd6;
-  font-weight: 500;
-}
-
-/* Properties, numbers, constants, tags, symbols */
-.editor-tokenProperty {
-  color: #9cdcfe;
-}
-
-/* Functions, classes */
-.editor-tokenFunction {
-  color: #dcdcaa;
-}
-
-/* Variables, regex, namespaces, important */
-.editor-tokenVariable {
-  color: #4ec9b0;
-}
-
-/* Selectors, strings, chars, inserted */
-.editor-tokenSelector {
-  color: #ce9178;
-}
-
-/* Operators, entities, URLs */
-.editor-tokenOperator {
-  color: #d4d4d4;
-}
-
-/* Punctuation */
-.editor-tokenPunctuation {
-  color: #808080;
+.editor-code:hover::after {
+  opacity: 0.5;
 }

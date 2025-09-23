@@ -3,8 +3,6 @@ import MuiPopover, {
 } from "@mui/material/Popover";
 import { Button as MuiButton, SvgIcon, styled } from "@mui/material";
 
-import "./styles.css";
-
 export interface PopoverItemProps {
   title: string;
   active?: boolean;
@@ -38,14 +36,16 @@ const StyledPopover = styled(MuiPopover)({
     marginTop: "0.5rem",
     borderRadius: "6px",
     backgroundColor: "#EAEAEA",
-    boxShadow: "none",
+    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05)",
+    border: "1px solid #8787870d",
   },
 });
 
 const StyledButton = styled(MuiButton)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
-  backgroundColor: "#f5f5f5",
+  // backgroundColor: "#f5f5f5",
+  backgroundColor: "white",
   color: "#878787",
   borderRadius: 0,
   padding: "0 0 0 10px",

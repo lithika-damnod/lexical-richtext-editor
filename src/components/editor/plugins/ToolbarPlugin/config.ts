@@ -5,6 +5,7 @@ import {
   setCodeBlock,
   setHeading,
   setParagraph,
+  setQuote,
   toggleBold,
   toggleCode,
   toggleItalic,
@@ -47,15 +48,15 @@ export function getBlockTypeOptions(
     },
     {
       title: "Code Block",
-      active: active === "h3",
+      active: active === "code",
       icon: TextIcon,
       onClick: () => setCodeBlock(editor),
     },
     {
       title: "Quote",
-      active: active === "h3",
+      active: active === "quote",
       icon: TextIcon,
-      onClick: () => {},
+      onClick: () => setQuote(editor),
     },
   ];
 }
@@ -109,7 +110,7 @@ export function getFormatButtonOptions(
     },
     {
       title: "Image",
-      active: formats.isImage,
+      active: false,
       icon: TextIcon,
       onClick: () => insertImage(editor),
     },

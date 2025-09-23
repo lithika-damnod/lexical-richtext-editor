@@ -8,23 +8,22 @@ import {
   type RangeSelection,
 } from "lexical";
 import { useEffect, useState } from "react";
-import { $isHeadingNode } from "@lexical/rich-text";
+import { $isHeadingNode, $isQuoteNode } from "@lexical/rich-text";
 import { $isListNode, ListNode, type ListNodeTagType } from "@lexical/list";
+import { $isCodeNode } from "@lexical/code";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import { $isLinkNode } from "@lexical/link";
 
-export type BlockType = "paragraph" | "h1" | "h2" | "h3" | "h4";
+export type BlockType = "paragraph" | "h1" | "h2" | "h3" | "code" | "quote";
 
 export type EditorStyleState = {
   bold: boolean;
   italic: boolean;
   underline: boolean;
   code: boolean;
-  isQuote: boolean;
   isUnorderedList: boolean;
   isOrderedList: boolean;
   isLink: boolean;
-  isImage: boolean;
 };
 
 export function useToolbarState(editor: LexicalEditor) {
@@ -36,11 +35,9 @@ export function useToolbarState(editor: LexicalEditor) {
     italic: false,
     underline: false,
     code: false,
-    isQuote: false,
     isUnorderedList: false,
     isOrderedList: false,
     isLink: false,
-    isImage: false,
   });
 
   useEffect(
@@ -83,10 +80,12 @@ export function useToolbarState(editor: LexicalEditor) {
 function getBlockType(topNode: LexicalNode): BlockType {
   if ($isHeadingNode(topNode)) {
     const tag = topNode.getTag();
-    if (["h1", "h2", "h3", "h4"].includes(tag)) {
+    if (["h1", "h2", "h3"].includes(tag)) {
       return tag as BlockType;
     }
   }
+  if ($isQuoteNode(topNode)) return "quote";
+  if ($isCodeNode(topNode)) return "code";
   return "paragraph";
 }
 
@@ -106,10 +105,8 @@ function getSelectionFormats(selection: RangeSelection) {
     italic: selection.hasFormat("italic"),
     underline: selection.hasFormat("underline"),
     code: selection.hasFormat("code"),
-    isQuote: false,
     isUnorderedList: listType === "ul",
     isOrderedList: listType === "ol",
     isLink: $isLinkNode(anchorNode) || $isLinkNode(parent),
-    isImage: false,
   };
 }

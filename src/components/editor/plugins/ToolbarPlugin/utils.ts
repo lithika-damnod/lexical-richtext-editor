@@ -13,7 +13,11 @@ import {
 } from "@lexical/list";
 import { $toggleLink } from "@lexical/link";
 import { $setBlocksType } from "@lexical/selection";
-import { $createHeadingNode, type HeadingTagType } from "@lexical/rich-text";
+import {
+  $createHeadingNode,
+  $createQuoteNode,
+  type HeadingTagType,
+} from "@lexical/rich-text";
 import { $createCodeNode } from "@lexical/code";
 import { INSERT_HORIZONTAL_RULE_COMMAND } from "@lexical/react/LexicalHorizontalRuleNode";
 import { INSERT_IMAGE_COMMAND } from "../../plugins";
@@ -49,6 +53,15 @@ export function setCodeBlock(editor: LexicalEditor) {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
       $setBlocksType(selection, () => $createCodeNode());
+    }
+  });
+}
+
+export function setQuote(editor: LexicalEditor) {
+  editor.update(() => {
+    const selection = $getSelection();
+    if ($isRangeSelection(selection)) {
+      $setBlocksType(selection, () => $createQuoteNode());
     }
   });
 }
