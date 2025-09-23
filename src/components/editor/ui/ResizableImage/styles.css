@@ -1,0 +1,57 @@
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.selected {
+  position: relative;
+  display: inline-block;
+}
+
+.selected img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  outline: 3.5px solid black;
+  display: block;
+}
+
+.selected::before,
+.selected::after,
+.selected span::before,
+.selected span::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: black;
+  box-sizing: border-box;
+}
+
+.selected::before {
+  top: -10px;
+  left: -12px;
+}
+
+.selected::after {
+  top: -10px;
+  right: -12px;
+}
+
+.selected span {
+  position: absolute;
+  inset: 0;
+}
+
+.selected span::before {
+  bottom: -10px;
+  left: -12px;
+}
+.selected span::after {
+  bottom: -10px;
+  right: -12px;
+}
