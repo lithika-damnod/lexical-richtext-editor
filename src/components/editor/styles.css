@@ -1,12 +1,8 @@
 .editor-container {
-  outline: 3px solid #ffddc2;
+  outline: 2px solid rgb(229, 229, 229);
   border-radius: 7px;
   transition: outline-color 0.2s ease;
   overflow: hidden;
-}
-
-.editor-container:focus-within {
-  outline-color: #ffddc2;
 }
 
 .content-editable {
@@ -16,4 +12,5 @@
 
   /* TODO: Remove this line (for testing purposes) */
   height: 60dvh;
+  overflow-y: scroll;
 }
