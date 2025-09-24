@@ -15,7 +15,21 @@ import {
 } from "./utils";
 import type { BlockType, EditorStyleState } from "../../hooks";
 import type { PopoverItemProps, ToolbarButtonProps } from "../../ui";
-import { TextIcon } from "../../icons";
+import {
+  BoldIcon,
+  CodeIcon,
+  HeadingOneIcon,
+  HeadingThreeIcon,
+  HeadingTwoIcon,
+  ImageIcon,
+  ItalicIcon,
+  LinkIcon,
+  OrderedListIcon,
+  QuoteIcon,
+  TextIcon,
+  UnderlineIcon,
+  UnorderedListIcon,
+} from "../../icons";
 
 export function getBlockTypeOptions(
   editor: LexicalEditor,
@@ -31,31 +45,31 @@ export function getBlockTypeOptions(
     {
       title: "Heading 1",
       active: active == "h1",
-      icon: TextIcon,
+      icon: HeadingOneIcon,
       onClick: () => setHeading(editor, "h1"),
     },
     {
       title: "Heading 2",
       active: active == "h2",
-      icon: TextIcon,
+      icon: HeadingTwoIcon,
       onClick: () => setHeading(editor, "h2"),
     },
     {
       title: "Heading 3",
       active: active == "h3",
-      icon: TextIcon,
+      icon: HeadingThreeIcon,
       onClick: () => setHeading(editor, "h3"),
     },
     {
       title: "Code Block",
       active: active === "code",
-      icon: TextIcon,
+      icon: CodeIcon,
       onClick: () => setCodeBlock(editor),
     },
     {
       title: "Quote",
       active: active === "quote",
-      icon: TextIcon,
+      icon: QuoteIcon,
       onClick: () => setQuote(editor),
     },
   ];
@@ -69,49 +83,49 @@ export function getFormatButtonOptions(
     {
       title: "Bold",
       active: formats.bold,
-      icon: TextIcon,
+      icon: BoldIcon,
       onClick: () => toggleBold(editor),
     },
     {
       title: "Italic",
       active: formats.italic,
-      icon: TextIcon,
+      icon: ItalicIcon,
       onClick: () => toggleItalic(editor),
     },
     {
       title: "Underline",
       active: formats.underline,
-      icon: TextIcon,
+      icon: UnderlineIcon,
       onClick: () => toggleUnderline(editor),
     },
     {
       title: "Code",
       active: formats.code,
-      icon: TextIcon,
+      icon: CodeIcon,
       onClick: () => toggleCode(editor),
     },
     {
       title: "Unordered List",
       active: formats.isUnorderedList,
-      icon: TextIcon,
+      icon: UnorderedListIcon,
       onClick: () => toggleUnorderedList(editor),
     },
     {
       title: "Ordered List",
       active: formats.isOrderedList,
-      icon: TextIcon,
+      icon: OrderedListIcon,
       onClick: () => toggleOrderedList(editor),
     },
     {
       title: "Link",
       active: formats.isLink,
-      icon: TextIcon,
+      icon: LinkIcon,
       onClick: () => insertLink(editor),
     },
     {
       title: "Image",
       active: false,
-      icon: TextIcon,
+      icon: ImageIcon,
       onClick: () => insertImage(editor),
     },
   ];

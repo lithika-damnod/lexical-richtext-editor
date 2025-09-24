@@ -15,6 +15,7 @@ import {
   Popover,
   PopoverItem,
   type ToolbarButtonProps,
+  ToolbarBlockTypeButton,
 } from "../../ui";
 import { handleRedo, handleUndo } from "./utils";
 import { usePopover, useToolbarState } from "../../hooks";
@@ -73,28 +74,11 @@ export function ToolbarPlugin() {
         />
       </div>
       <div>
-        <button
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            padding: 0,
-            backgroundColor: "white",
-            cursor: "pointer",
-          }}
+        <ToolbarBlockTypeButton
+          icon={blockOptions.find((option) => option.active)?.icon ?? TextIcon}
+          opened={blockTypePopover.isOpen}
           onClick={blockTypePopover.open}
-        >
-          <SvgIcon
-            component={TextIcon}
-            inheritViewBox
-            sx={{
-              "&.MuiSvgIcon-root": {
-                fontSize: "40px",
-              },
-            }}
-          />
-          <ChevronIcon />
-        </button>
+        />
         <div>
           <div>
             {formatOptions.visible.map((button, index) => (

@@ -1,6 +1,10 @@
 import UndoIcon from "./undo.svg?react";
 import RedoIcon from "./redo.svg?react";
 import TextIcon from "./text.svg?react";
+import HeadingOneIcon from "./h1.svg?react";
+import HeadingTwoIcon from "./h2.svg?react";
+import HeadingThreeIcon from "./h3.svg?react";
+import QuoteIcon from "./quote.svg?react";
 import BoldIcon from "./bold.svg?react";
 import ItalicIcon from "./italic.svg?react";
 import UnderlineIcon from "./underline.svg?react";
@@ -16,6 +20,10 @@ export {
   UndoIcon,
   RedoIcon,
   TextIcon,
+  HeadingOneIcon,
+  HeadingTwoIcon,
+  HeadingThreeIcon,
+  QuoteIcon,
   BoldIcon,
   ItalicIcon,
   UnderlineIcon,
