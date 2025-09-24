@@ -33,4 +33,5 @@ export const MuiEditorTheme = createTheme({
   palette: {
     primary: { main: "#E67700" },
   },
+  typography: { fontFamily: ["Inter", "sans-serif"].join(",") },
 });

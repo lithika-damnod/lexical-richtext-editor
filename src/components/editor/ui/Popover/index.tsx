@@ -36,21 +36,22 @@ const StyledPopover = styled(MuiPopover)({
     marginTop: "0.5rem",
     borderRadius: "6px",
     backgroundColor: "#EAEAEA",
-    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05)",
-    border: "1px solid #8787870d",
+    boxShadow: "none",
+    // boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05)",
+    // border: "1px solid #8787870d",
   },
 });
 
 const StyledButton = styled(MuiButton)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
-  // backgroundColor: "#f5f5f5",
-  backgroundColor: "white",
+  backgroundColor: "#f5f5f5",
   color: "#878787",
   borderRadius: 0,
   padding: "0 0 0 10px",
   minWidth: 130,
-  fontSize: 15.5,
+  fontSize: 16.5,
+  fontWeight: 500,
   textTransform: "capitalize",
   transition: "color 0.15s ease-in-out",
 

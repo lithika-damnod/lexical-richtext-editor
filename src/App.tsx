@@ -11,7 +11,7 @@ function App() {
         alignItems: "center",
       }}
     >
-      <div style={{ width: "80%", marginBottom: "10rem" }}>
+      <div style={{ width: "80%" }}>
         <Editor />
       </div>
     </section>
