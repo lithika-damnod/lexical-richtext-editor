@@ -28,13 +28,16 @@ export function PriorityContainer({
       if (!wrapper.current || !measurer.current) return;
       const wrapperWidth = wrapper.current.getBoundingClientRect().width;
       const items = Array.from(measurer.current.children) as HTMLElement[];
+      const gap = parseFloat(
+        window.getComputedStyle(container.current as Element).gap
+      );
 
       let total = 0;
       let count = 0;
       for (let i = 0; i < items.length; i++) {
         const w = items[i].getBoundingClientRect().width;
         if (total + w <= wrapperWidth) {
-          total += w;
+          total += w + (i < items.length - 1 ? gap : 0);
           count++;
         } else break;
       }
@@ -56,8 +59,8 @@ export function PriorityContainer({
   const visible = React.Children.toArray(children).slice(0, overflowSliceIndex);
 
   return (
-    <div className="priority-wrapper" ref={wrapper} {...props}>
-      <span className="priority-container" ref={container}>
+    <div className="priority-wrapper" ref={wrapper}>
+      <span className="priority-container" ref={container} {...props}>
         {visible}
       </span>
 
