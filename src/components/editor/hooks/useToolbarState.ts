@@ -20,6 +20,7 @@ export type EditorStyleState = {
   bold: boolean;
   italic: boolean;
   underline: boolean;
+  strikethrough: boolean;
   code: boolean;
   isUnorderedList: boolean;
   isOrderedList: boolean;
@@ -34,6 +35,7 @@ export function useToolbarState(editor: LexicalEditor) {
     bold: false,
     italic: false,
     underline: false,
+    strikethrough: false,
     code: false,
     isUnorderedList: false,
     isOrderedList: false,
@@ -104,6 +106,7 @@ function getSelectionFormats(selection: RangeSelection) {
     bold: selection.hasFormat("bold"),
     italic: selection.hasFormat("italic"),
     underline: selection.hasFormat("underline"),
+    strikethrough: selection.hasFormat("strikethrough"),
     code: selection.hasFormat("code"),
     isUnorderedList: listType === "ul",
     isOrderedList: listType === "ol",

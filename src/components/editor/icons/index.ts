@@ -8,6 +8,8 @@ import QuoteIcon from "./quote.svg?react";
 import BoldIcon from "./bold.svg?react";
 import ItalicIcon from "./italic.svg?react";
 import UnderlineIcon from "./underline.svg?react";
+import TextColorIcon from "./color.svg?react";
+import StrikethroughIcon from "./strikethrough.svg?react";
 import CodeIcon from "./code.svg?react";
 import OrderedListIcon from "./ol.svg?react";
 import UnorderedListIcon from "./ul.svg?react";
@@ -27,6 +29,8 @@ export {
   BoldIcon,
   ItalicIcon,
   UnderlineIcon,
+  TextColorIcon,
+  StrikethroughIcon,
   CodeIcon,
   OrderedListIcon,
   UnorderedListIcon,

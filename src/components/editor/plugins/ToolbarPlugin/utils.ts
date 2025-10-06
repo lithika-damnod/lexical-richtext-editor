@@ -82,6 +82,10 @@ export function toggleUnderline(editor: LexicalEditor) {
   editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
 }
 
+export function toggleStrikethrough(editor: LexicalEditor) {
+  editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
+}
+
 export function toggleCode(editor: LexicalEditor) {
   editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
 }

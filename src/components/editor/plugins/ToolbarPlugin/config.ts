@@ -10,6 +10,7 @@ import {
   toggleCode,
   toggleItalic,
   toggleOrderedList,
+  toggleStrikethrough,
   toggleUnderline,
   toggleUnorderedList,
 } from "./utils";
@@ -26,6 +27,8 @@ import {
   LinkIcon,
   OrderedListIcon,
   QuoteIcon,
+  StrikethroughIcon,
+  TextColorIcon,
   TextIcon,
   UnderlineIcon,
   UnorderedListIcon,
@@ -97,6 +100,18 @@ export function getFormatButtonOptions(
       active: formats.underline,
       icon: UnderlineIcon,
       onClick: () => toggleUnderline(editor),
+    },
+    {
+      title: "Text Color",
+      active: false,
+      icon: TextColorIcon,
+      onClick: () => {},
+    },
+    {
+      title: "Strikethrough",
+      active: formats.strikethrough,
+      icon: StrikethroughIcon,
+      onClick: () => toggleStrikethrough(editor),
     },
     {
       title: "Code",

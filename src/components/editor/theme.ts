@@ -25,6 +25,7 @@ export const theme = {
     code: "editor-textCode",
     italic: "editor-textItalic",
     underline: "editor-textUnderline",
+    strikethrough: "editor-textStrikethrough",
   },
   code: "editor-code",
 };
