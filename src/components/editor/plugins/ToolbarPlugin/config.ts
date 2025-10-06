@@ -145,3 +145,11 @@ export function getFormatButtonOptions(
     },
   ];
 }
+
+export const TEXT_COLORS = [
+  "#000000",
+  "#ff0000",
+  "#1c76dd",
+  "#40a33f",
+  "#8d8d8c",
+] as const;

@@ -19,8 +19,9 @@ import {
   type HeadingTagType,
 } from "@lexical/rich-text";
 import { $createCodeNode } from "@lexical/code";
-import { INSERT_HORIZONTAL_RULE_COMMAND } from "@lexical/react/LexicalHorizontalRuleNode";
+import { $patchStyleText } from "@lexical/selection";
 import { INSERT_IMAGE_COMMAND } from "../../plugins";
+import type { TextColor } from "../../ui";
 
 export function handleUndo(editor: LexicalEditor) {
   editor.dispatchCommand(UNDO_COMMAND, undefined);
@@ -66,8 +67,11 @@ export function setQuote(editor: LexicalEditor) {
   });
 }
 
-export function insertHorizontalRule(editor: LexicalEditor) {
-  editor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined);
+export function setTextColor(editor: LexicalEditor, color: TextColor) {
+  editor.update(() => {
+    const selection = $getSelection();
+    if (selection) $patchStyleText(selection, { color: color });
+  });
 }
 
 export function toggleBold(editor: LexicalEditor) {

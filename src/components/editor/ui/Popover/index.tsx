@@ -1,13 +1,22 @@
+import { TEXT_COLORS } from "../../plugins/ToolbarPlugin/config";
+
 import MuiPopover, {
   type PopoverProps as MuiPopoverProps,
 } from "@mui/material/Popover";
 import { Button as MuiButton, SvgIcon, styled } from "@mui/material";
+import { Check } from "@mui/icons-material";
 
 export interface PopoverItemProps {
   title: string;
   active?: boolean;
   icon: React.ElementType;
   onClick?: () => void;
+}
+
+export type TextColor = (typeof TEXT_COLORS)[number];
+export interface ColorPickerPopoverProps extends MuiPopoverProps {
+  value: TextColor;
+  onColorChange?: (color: TextColor) => void;
 }
 
 export function Popover(props: MuiPopoverProps) {
@@ -28,6 +37,33 @@ export function PopoverItem({
   );
 }
 
+export function ColorPickerPopover({
+  value,
+  onColorChange,
+  ...props
+}: ColorPickerPopoverProps) {
+  return (
+    <StyledPopover {...props}>
+      <div
+        style={{
+          display: "flex",
+          gap: "0.4rem",
+          padding: "2px",
+        }}
+      >
+        {TEXT_COLORS.map((color, index) => (
+          <CircleCheckbox
+            key={index}
+            fill={color}
+            checked={value === color}
+            onClick={() => onColorChange?.(color)}
+          />
+        ))}
+      </div>
+    </StyledPopover>
+  );
+}
+
 const StyledPopover = styled(MuiPopover)({
   "& .MuiPopover-paper": {
     display: "flex",
@@ -37,8 +73,6 @@ const StyledPopover = styled(MuiPopover)({
     borderRadius: "6px",
     backgroundColor: "#EAEAEA",
     boxShadow: "none",
-    // boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05)",
-    // border: "1px solid #8787870d",
   },
 });
 
@@ -72,3 +106,35 @@ const StyledButton = styled(MuiButton)(({ theme }) => ({
     },
   },
 }));
+
+const CircleCheckbox = ({
+  fill,
+  checked,
+  onClick,
+}: {
+  fill: string;
+  checked?: boolean;
+  onClick?: () => void;
+}) => (
+  <div
+    style={{
+      padding: "5px",
+      cursor: "pointer",
+    }}
+    onClick={onClick}
+  >
+    <div
+      style={{
+        width: 22,
+        height: 22,
+        backgroundColor: fill,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: "50%",
+      }}
+    >
+      {checked && <Check sx={{ color: "white", fontSize: 20 }} />}
+    </div>
+  </div>
+);

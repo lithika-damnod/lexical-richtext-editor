@@ -9,8 +9,9 @@ import {
   PopoverItem,
   type ToolbarButtonProps,
   ToolbarBlockTypeButton,
+  ColorPickerPopover,
 } from "../../ui";
-import { handleRedo, handleUndo } from "./utils";
+import { handleRedo, handleUndo, setTextColor } from "./utils";
 import { usePopover, useToolbarState } from "../../hooks";
 import { getBlockTypeOptions, getFormatButtonOptions } from "./config";
 import "./styles.css";
@@ -46,6 +47,7 @@ export function ToolbarPlugin() {
 
   const blockTypePopover = usePopover();
   const toolbarOverflowPopover = usePopover();
+  const textColorPopover = usePopover();
 
   return (
     <div className="toolbar">
@@ -86,7 +88,11 @@ export function ToolbarPlugin() {
               title={button.title}
               active={button.active}
               icon={button.icon}
-              onClick={button.onClick}
+              onClick={
+                button.title === "Text Color"
+                  ? (event) => event && textColorPopover.open(event)
+                  : button.onClick
+              }
             />
           ))}
           {!isScreenLargeWidth && (
@@ -151,6 +157,22 @@ export function ToolbarPlugin() {
           />
         ))}
       </Popover>
+      <ColorPickerPopover
+        value={formats.color}
+        open={textColorPopover.isOpen}
+        anchorEl={textColorPopover.anchorEl}
+        onClose={textColorPopover.close}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        marginThreshold={60}
+        onColorChange={(color) => setTextColor(editor, color)}
+      />
     </div>
   );
 }

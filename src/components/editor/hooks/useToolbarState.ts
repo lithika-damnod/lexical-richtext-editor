@@ -13,6 +13,9 @@ import { $isListNode, ListNode, type ListNodeTagType } from "@lexical/list";
 import { $isCodeNode } from "@lexical/code";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import { $isLinkNode } from "@lexical/link";
+import { $getSelectionStyleValueForProperty } from "@lexical/selection";
+import type { TextColor } from "../ui";
+import { TEXT_COLORS } from "../plugins/ToolbarPlugin/config";
 
 export type BlockType = "paragraph" | "h1" | "h2" | "h3" | "code" | "quote";
 
@@ -25,6 +28,7 @@ export type EditorStyleState = {
   isUnorderedList: boolean;
   isOrderedList: boolean;
   isLink: boolean;
+  color: TextColor;
 };
 
 export function useToolbarState(editor: LexicalEditor) {
@@ -40,6 +44,7 @@ export function useToolbarState(editor: LexicalEditor) {
     isUnorderedList: false,
     isOrderedList: false,
     isLink: false,
+    color: TEXT_COLORS[0],
   });
 
   useEffect(
@@ -102,6 +107,12 @@ function getSelectionFormats(selection: RangeSelection) {
     listType = (parentList ?? topNode).getTag();
   }
 
+  const color = $getSelectionStyleValueForProperty(
+    selection,
+    "color",
+    TEXT_COLORS[0]
+  );
+
   return {
     bold: selection.hasFormat("bold"),
     italic: selection.hasFormat("italic"),
@@ -111,5 +122,6 @@ function getSelectionFormats(selection: RangeSelection) {
     isUnorderedList: listType === "ul",
     isOrderedList: listType === "ol",
     isLink: $isLinkNode(anchorNode) || $isLinkNode(parent),
+    color: color as TextColor,
   };
 }
