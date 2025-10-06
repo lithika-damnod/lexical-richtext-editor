@@ -32,13 +32,16 @@ export function ToolbarPlugin() {
     hidden: ToolbarButtonProps[];
   } => {
     const all = getFormatButtonOptions(editor, formats);
-    const active = all.find((option: ToolbarButtonProps) => option.active); // finds the first active option
+    const pinned = [all[3]];
 
     return isScreenLargeWidth
       ? { visible: all, hidden: [] }
       : isScreenMediumWidth
         ? { visible: all.slice(0, 4), hidden: all.slice(4) }
-        : { visible: active ? [active] : [], hidden: all };
+        : {
+            visible: pinned,
+            hidden: all.filter((item) => !pinned.includes(item)),
+          };
   }, [editor, formats, isScreenLargeWidth, isScreenMediumWidth]);
 
   const blockTypePopover = usePopover();
