@@ -1,15 +1,8 @@
 import { useMemo } from "react";
-import { SvgIcon } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-import {
-  ChevronIcon,
-  MenuIcon,
-  RedoIcon,
-  TextIcon,
-  UndoIcon,
-} from "../../icons";
+import { MenuIcon, RedoIcon, TextIcon, UndoIcon } from "../../icons";
 import {
   ToolbarButton,
   Popover,
@@ -53,7 +46,7 @@ export function ToolbarPlugin() {
 
   return (
     <div className="toolbar">
-      <div>
+      <div className="toolbar-history-group">
         <ToolbarButton
           title="Undo"
           active={false}
@@ -73,24 +66,26 @@ export function ToolbarPlugin() {
           }}
         />
       </div>
-      <div>
-        <ToolbarBlockTypeButton
-          icon={blockOptions.find((option) => option.active)?.icon ?? TextIcon}
-          opened={blockTypePopover.isOpen}
-          onClick={blockTypePopover.open}
-        />
-        <div>
-          <div>
-            {formatOptions.visible.map((button, index) => (
-              <ToolbarButton
-                key={index}
-                title={button.title}
-                active={button.active}
-                icon={button.icon}
-                onClick={button.onClick}
-              />
-            ))}
-          </div>
+      <div className="toolbar-formatting-container">
+        <div className="toolbar-text-type-group">
+          <ToolbarBlockTypeButton
+            icon={
+              blockOptions.find((option) => option.active)?.icon ?? TextIcon
+            }
+            opened={blockTypePopover.isOpen}
+            onClick={blockTypePopover.open}
+          />
+        </div>
+        <div className="toolbar-formatting-group">
+          {formatOptions.visible.map((button, index) => (
+            <ToolbarButton
+              key={index}
+              title={button.title}
+              active={button.active}
+              icon={button.icon}
+              onClick={button.onClick}
+            />
+          ))}
           {!isScreenLargeWidth && (
             <ToolbarButton
               title="More"

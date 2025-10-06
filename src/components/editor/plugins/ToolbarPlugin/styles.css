@@ -7,6 +7,7 @@
   background-color: white;
   justify-content: space-between;
   align-items: center;
+  gap: 3rem;
 }
 
 .toolbar button {
@@ -16,42 +17,17 @@
   border-radius: 100%;
 }
 
-.toolbar > div:nth-child(1) {
+.toolbar-history-group {
   display: flex;
   gap: 1rem;
 }
 
-.toolbar > div:nth-child(2) {
+.toolbar-formatting-container {
   display: flex;
   gap: 1.5rem;
 }
 
-.toolbar > div:nth-child(2) > div:nth-child(2) {
+.toolbar-formatting-group {
   display: flex;
   gap: 1rem;
-}
-
-.toolbar > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) {
-  display: flex;
-  gap: 1rem;
-}
-
-@keyframes reveal {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.toolbar
-  > div:nth-child(2)
-  > div:nth-child(2)
-  > div:nth-child(1)
-  button.active {
-  display: flex;
-  overflow: hidden;
-  animation-name: reveal;
-  animation-duration: 0.5s;
 }
