@@ -78,18 +78,26 @@
 
 .editor-list-ol {
   padding: 0;
-  margin: 0;
-  margin-left: 20px;
-  list-style-type: decimal;
-  margin-bottom: 30px;
+  margin: 0 0 30px 20px;
+}
+
+.editor-list-ol ol {
+  margin-top: 0;
+  list-style-type: upper-alpha;
+}
+
+.editor-list-ol ol ol {
+  margin-top: 0;
+  list-style-type: upper-roman;
 }
 
 .editor-list-ul {
   padding: 0;
-  margin: 0;
-  margin-left: 16px;
-  list-style-type: disc;
-  margin-bottom: 30px;
+  margin: 0 0 30px 16px;
+}
+
+.editor-list-ul ul {
+  margin-top: 0;
 }
 
 .editor-list-ol,
