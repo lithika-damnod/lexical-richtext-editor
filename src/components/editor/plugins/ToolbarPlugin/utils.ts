@@ -3,6 +3,8 @@ import {
   $getSelection,
   $isRangeSelection,
   FORMAT_TEXT_COMMAND,
+  INDENT_CONTENT_COMMAND,
+  OUTDENT_CONTENT_COMMAND,
   REDO_COMMAND,
   UNDO_COMMAND,
   type LexicalEditor,
@@ -135,4 +137,11 @@ export function insertImage(editor: LexicalEditor) {
   };
 
   input.click();
+}
+
+export function handleIndentIncrease(editor: LexicalEditor) {
+  editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
+}
+export function handleIndentDecrease(editor: LexicalEditor) {
+  editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
 }

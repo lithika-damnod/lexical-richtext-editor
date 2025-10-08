@@ -2,7 +2,13 @@ import { useMemo } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-import { MenuIcon, RedoIcon, TextIcon, UndoIcon } from "../../icons";
+import {
+  LeftAlignIcon,
+  MenuIcon,
+  RedoIcon,
+  TextIcon,
+  UndoIcon,
+} from "../../icons";
 import {
   ToolbarButton,
   Popover,

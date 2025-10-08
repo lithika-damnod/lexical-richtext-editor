@@ -3,6 +3,7 @@ import {
   $isRangeSelection,
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
+  type ElementFormatType,
   type LexicalEditor,
   type LexicalNode,
   type RangeSelection,
@@ -29,6 +30,7 @@ export type EditorStyleState = {
   isOrderedList: boolean;
   isLink: boolean;
   color: TextColor;
+  textAlign: ElementFormatType;
 };
 
 export function useToolbarState(editor: LexicalEditor) {
@@ -44,7 +46,8 @@ export function useToolbarState(editor: LexicalEditor) {
     isUnorderedList: false,
     isOrderedList: false,
     isLink: false,
-    color: TEXT_COLORS[0],
+    color: TEXT_COLORS[0], // default: "#000000"
+    textAlign: "left",
   });
 
   useEffect(
@@ -123,5 +126,6 @@ function getSelectionFormats(selection: RangeSelection) {
     isOrderedList: listType === "ol",
     isLink: $isLinkNode(anchorNode) || $isLinkNode(parent),
     color: color as TextColor,
+    textAlign: parent?.getFormatType() ?? "left",
   };
 }

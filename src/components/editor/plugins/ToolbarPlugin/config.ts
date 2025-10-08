@@ -1,5 +1,7 @@
 import type { LexicalEditor } from "lexical";
 import {
+  handleIndentDecrease,
+  handleIndentIncrease,
   insertImage,
   insertLink,
   setCodeBlock,
@@ -23,6 +25,8 @@ import {
   HeadingThreeIcon,
   HeadingTwoIcon,
   ImageIcon,
+  IndentLeftIcon,
+  IndentRightIcon,
   ItalicIcon,
   LinkIcon,
   OrderedListIcon,
@@ -142,6 +146,18 @@ export function getFormatButtonOptions(
       active: false,
       icon: ImageIcon,
       onClick: () => insertImage(editor),
+    },
+    {
+      title: "Right Indent",
+      active: false,
+      icon: IndentRightIcon,
+      onClick: () => handleIndentIncrease(editor),
+    },
+    {
+      title: "Left Indent",
+      active: false,
+      icon: IndentLeftIcon,
+      onClick: () => handleIndentDecrease(editor),
     },
   ];
 }

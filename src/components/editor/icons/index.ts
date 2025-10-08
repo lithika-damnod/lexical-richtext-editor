@@ -21,6 +21,8 @@ import LeftAlignIcon from "./left.svg?react";
 import CenterAlignIcon from "./center.svg?react";
 import RightAlignIcon from "./right.svg?react";
 import JustifyAlignIcon from "./justify.svg?react";
+import IndentLeftIcon from "./indent-left.svg?react";
+import IndentRightIcon from "./indent-right.svg?react";
 
 export {
   UndoIcon,
@@ -45,5 +47,7 @@ export {
   CenterAlignIcon,
   RightAlignIcon,
   JustifyAlignIcon,
+  IndentLeftIcon,
+  IndentRightIcon,
   ChevronIcon,
 };
