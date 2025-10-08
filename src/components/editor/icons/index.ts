@@ -17,6 +17,10 @@ import LinkIcon from "./link.svg?react";
 import ImageIcon from "./image.svg?react";
 import ChevronIcon from "./chevron.svg?react";
 import MenuIcon from "./menu.svg?react";
+import LeftAlignIcon from "./left.svg?react";
+import CenterAlignIcon from "./center.svg?react";
+import RightAlignIcon from "./right.svg?react";
+import JustifyAlignIcon from "./justify.svg?react";
 
 export {
   UndoIcon,
@@ -37,5 +41,9 @@ export {
   LinkIcon,
   ImageIcon,
   MenuIcon,
+  LeftAlignIcon,
+  CenterAlignIcon,
+  RightAlignIcon,
+  JustifyAlignIcon,
   ChevronIcon,
 };
