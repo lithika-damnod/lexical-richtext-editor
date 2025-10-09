@@ -1,6 +1,9 @@
-import Editor from "@/components/editor";
+import { useRef } from "react";
+import Editor, { type EditorHandle } from "@/components/editor";
 
 function App() {
+  const ref = useRef<EditorHandle>(null);
+
   return (
     <section
       style={{
@@ -12,8 +15,15 @@ function App() {
       }}
     >
       <div style={{ width: "80%" }}>
-        <Editor />
+        <Editor ref={ref} />
       </div>
+      <button
+        onClick={() => {
+          if (ref.current) console.log(ref.current.export());
+        }}
+      >
+        Export
+      </button>
     </section>
   );
 }

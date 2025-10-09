@@ -2,10 +2,12 @@ import {
   LexicalComposer,
   type InitialConfigType,
 } from "@lexical/react/LexicalComposer";
+import { useImperativeHandle, type Ref } from "react";
 import { ThemeProvider } from "@mui/material";
 import { theme, MuiEditorTheme } from "@/components/editor/theme";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
 import {
   ToolbarPlugin,
@@ -26,6 +28,7 @@ import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { LinkNode } from "@lexical/link";
 import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { ListItemNode, ListNode } from "@lexical/list";
+import { $generateHtmlFromNodes } from "@lexical/html";
 import { TRANSFORMERS } from "@lexical/markdown";
 
 import "./theme.css";
@@ -49,7 +52,11 @@ const editorConfig: InitialConfigType = {
   },
 };
 
-export default function Editor() {
+export type EditorHandle = {
+  export: () => string;
+};
+
+export default function Editor({ ref }: { ref?: Ref<EditorHandle> }) {
   return (
     <ThemeProvider theme={MuiEditorTheme}>
       <LexicalComposer initialConfig={editorConfig}>
@@ -69,7 +76,27 @@ export default function Editor() {
         <CodeHighlightShikiPlugin />
         <ImagePlugin />
         <DragDropPastePlugin />
+        <EditorHandleBridge ref={ref} />
       </LexicalComposer>
     </ThemeProvider>
   );
+}
+
+function EditorHandleBridge({ ref }: { ref?: Ref<EditorHandle> }) {
+  const [editor] = useLexicalComposerContext();
+
+  useImperativeHandle(ref, (): EditorHandle => {
+    return {
+      export: () => {
+        let html = "";
+        editor.read(() => {
+          html = $generateHtmlFromNodes(editor, null);
+        });
+
+        return html;
+      },
+    };
+  }, []);
+
+  return null;
 }

@@ -84,8 +84,6 @@ export function ResizableImage({ src, nodeKey }: ImageProps) {
     if (!selected) return;
 
     if (event.key == "Delete" || event.key === "Backspace") {
-      console.log("delete running");
-
       editor.dispatchCommand(DELETE_IMAGE_COMMAND, {
         key: nodeKey,
       });

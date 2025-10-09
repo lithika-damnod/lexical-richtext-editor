@@ -1,6 +1,7 @@
 import {
   $applyNodeReplacement,
   DecoratorNode,
+  type DOMExportOutput,
   type LexicalNode,
   type NodeKey,
   type SerializedLexicalNode,
@@ -84,6 +85,17 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
 
   updateDOM(): false {
     return false;
+  }
+
+  exportDOM(): DOMExportOutput {
+    const element = document.createElement("img");
+    element.setAttribute("src", this.__src);
+    element.setAttribute("alt", this.__alt);
+    element.setAttribute("width", this.__width.toString());
+    element.setAttribute("height", this.__height.toString());
+    element.setAttribute("max-width", this.__maxWidth.toString());
+
+    return { element };
   }
 
   exportJSON(): SerializedImageNode {
