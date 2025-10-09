@@ -21,7 +21,7 @@ export function ToolbarPlugin() {
   const { blockType, formats, canUndo, canRedo } = useToolbarState(editor);
 
   const isScreenMediumWidth = useMediaQuery("(min-width: 700px)");
-  const isScreenLargeWidth = useMediaQuery("(min-width: 1000px)");
+  const isScreenLargeWidth = useMediaQuery("(min-width: 1200px)");
 
   const blockOptions = useMemo(
     () => getBlockTypeOptions(editor, blockType),
