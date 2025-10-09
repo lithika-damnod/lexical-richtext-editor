@@ -2,6 +2,7 @@ import {
   $createParagraphNode,
   $getSelection,
   $isRangeSelection,
+  FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   INDENT_CONTENT_COMMAND,
   OUTDENT_CONTENT_COMMAND,
@@ -22,8 +23,11 @@ import {
 } from "@lexical/rich-text";
 import { $createCodeNode } from "@lexical/code";
 import { $patchStyleText } from "@lexical/selection";
-import { INSERT_IMAGE_COMMAND } from "../../plugins";
+import { $getNearestBlockElementAncestorOrThrow } from "@lexical/utils";
+
 import type { TextColor } from "../../ui";
+import { INSERT_IMAGE_COMMAND } from "../../plugins";
+import { TEXT_ALIGNMENT_OPTIONS } from "./config";
 
 export function handleUndo(editor: LexicalEditor) {
   editor.dispatchCommand(UNDO_COMMAND, undefined);
@@ -144,4 +148,29 @@ export function handleIndentIncrease(editor: LexicalEditor) {
 }
 export function handleIndentDecrease(editor: LexicalEditor) {
   editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
+}
+
+export function rotateTextAlignment(editor: LexicalEditor) {
+  editor.update(() => {
+    const selection = $getSelection();
+    if ($isRangeSelection(selection)) {
+      const anchorNode = selection.anchor.getNode();
+      const blockElem = $getNearestBlockElementAncestorOrThrow(anchorNode);
+      const activeOptionIndex = TEXT_ALIGNMENT_OPTIONS.findIndex(
+        (option) =>
+          option.format ===
+          (blockElem?.getFormatType() ?? TEXT_ALIGNMENT_OPTIONS[0].format)
+      );
+
+      editor.dispatchCommand(
+        FORMAT_ELEMENT_COMMAND,
+        TEXT_ALIGNMENT_OPTIONS[
+          ((((activeOptionIndex === -1 ? 0 : activeOptionIndex) + 1) %
+            TEXT_ALIGNMENT_OPTIONS.length) +
+            TEXT_ALIGNMENT_OPTIONS.length) %
+            TEXT_ALIGNMENT_OPTIONS.length
+        ].format
+      );
+    }
+  });
 }

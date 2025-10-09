@@ -2,13 +2,7 @@ import { useMemo } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-import {
-  LeftAlignIcon,
-  MenuIcon,
-  RedoIcon,
-  TextIcon,
-  UndoIcon,
-} from "../../icons";
+import { MenuIcon, RedoIcon, TextIcon, UndoIcon } from "../../icons";
 import {
   ToolbarButton,
   Popover,
@@ -94,11 +88,12 @@ export function ToolbarPlugin() {
               title={button.title}
               active={button.active}
               icon={button.icon}
-              onClick={
-                button.title === "Text Color"
-                  ? (event) => event && textColorPopover.open(event)
-                  : button.onClick
-              }
+              onClick={(event) => {
+                if (button.title === "Text Color")
+                  return event && textColorPopover.open(event);
+
+                button.onClick?.();
+              }}
             />
           ))}
           {!isScreenLargeWidth && (
@@ -158,7 +153,9 @@ export function ToolbarPlugin() {
             icon={option.icon}
             onClick={() => {
               if (option.onClick) option.onClick();
-              setTimeout(toolbarOverflowPopover.close, 0);
+
+              if (option.title !== "Text Align")
+                setTimeout(toolbarOverflowPopover.close, 0);
             }}
           />
         ))}

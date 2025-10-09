@@ -1,9 +1,10 @@
-import type { LexicalEditor } from "lexical";
+import type { ElementFormatType, LexicalEditor } from "lexical";
 import {
   handleIndentDecrease,
   handleIndentIncrease,
   insertImage,
   insertLink,
+  rotateTextAlignment,
   setCodeBlock,
   setHeading,
   setParagraph,
@@ -20,6 +21,7 @@ import type { BlockType, EditorStyleState } from "../../hooks";
 import type { PopoverItemProps, ToolbarButtonProps } from "../../ui";
 import {
   BoldIcon,
+  CenterAlignIcon,
   CodeIcon,
   HeadingOneIcon,
   HeadingThreeIcon,
@@ -28,9 +30,12 @@ import {
   IndentLeftIcon,
   IndentRightIcon,
   ItalicIcon,
+  JustifyAlignIcon,
+  LeftAlignIcon,
   LinkIcon,
   OrderedListIcon,
   QuoteIcon,
+  RightAlignIcon,
   StrikethroughIcon,
   TextColorIcon,
   TextIcon,
@@ -159,6 +164,16 @@ export function getFormatButtonOptions(
       icon: IndentLeftIcon,
       onClick: () => handleIndentDecrease(editor),
     },
+    {
+      title: "Text Align",
+      active: false,
+      icon: (
+        TEXT_ALIGNMENT_OPTIONS.find(
+          (option) => option.format === formats.textAlign
+        ) ?? TEXT_ALIGNMENT_OPTIONS[0]
+      ).icon,
+      onClick: () => rotateTextAlignment(editor),
+    },
   ];
 }
 
@@ -169,3 +184,13 @@ export const TEXT_COLORS = [
   "#40a33f",
   "#8d8d8c",
 ] as const;
+
+export const TEXT_ALIGNMENT_OPTIONS: {
+  format: ElementFormatType;
+  icon: React.ElementType;
+}[] = [
+  { format: "left", icon: LeftAlignIcon },
+  { format: "center", icon: CenterAlignIcon },
+  { format: "right", icon: RightAlignIcon },
+  { format: "justify", icon: JustifyAlignIcon },
+];

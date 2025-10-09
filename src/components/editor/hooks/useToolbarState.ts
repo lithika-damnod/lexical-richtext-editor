@@ -15,8 +15,12 @@ import { $isCodeNode } from "@lexical/code";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import { $isLinkNode } from "@lexical/link";
 import { $getSelectionStyleValueForProperty } from "@lexical/selection";
+import { $getNearestBlockElementAncestorOrThrow } from "@lexical/utils";
 import type { TextColor } from "../ui";
-import { TEXT_COLORS } from "../plugins/ToolbarPlugin/config";
+import {
+  TEXT_ALIGNMENT_OPTIONS,
+  TEXT_COLORS,
+} from "../plugins/ToolbarPlugin/config";
 
 export type BlockType = "paragraph" | "h1" | "h2" | "h3" | "code" | "quote";
 
@@ -47,7 +51,7 @@ export function useToolbarState(editor: LexicalEditor) {
     isOrderedList: false,
     isLink: false,
     color: TEXT_COLORS[0], // default: "#000000"
-    textAlign: "left",
+    textAlign: TEXT_ALIGNMENT_OPTIONS[0].format,
   });
 
   useEffect(
@@ -102,6 +106,7 @@ function getBlockType(topNode: LexicalNode): BlockType {
 function getSelectionFormats(selection: RangeSelection) {
   const anchorNode = selection.anchor.getNode();
   const parent = anchorNode.getParent();
+  const nearestBlockElem = $getNearestBlockElementAncestorOrThrow(anchorNode);
   let topNode = anchorNode.getTopLevelElementOrThrow();
 
   let listType: ListNodeTagType | undefined;
@@ -126,6 +131,7 @@ function getSelectionFormats(selection: RangeSelection) {
     isOrderedList: listType === "ol",
     isLink: $isLinkNode(anchorNode) || $isLinkNode(parent),
     color: color as TextColor,
-    textAlign: parent?.getFormatType() ?? "left",
+    textAlign:
+      nearestBlockElem?.getFormatType() ?? TEXT_ALIGNMENT_OPTIONS[0].format,
   };
 }
