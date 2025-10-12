@@ -14,6 +14,7 @@ import {
   CodeHighlightShikiPlugin,
   ImagePlugin,
   DragDropPastePlugin,
+  LinkPreviewPlugin,
 } from "./plugins";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
@@ -76,6 +77,7 @@ export default function Editor({ ref }: { ref?: Ref<EditorHandle> }) {
         <CodeHighlightShikiPlugin />
         <ImagePlugin />
         <DragDropPastePlugin />
+        <LinkPreviewPlugin />
         <EditorHandleBridge ref={ref} />
       </LexicalComposer>
     </ThemeProvider>

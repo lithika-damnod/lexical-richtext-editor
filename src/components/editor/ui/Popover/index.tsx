@@ -9,7 +9,7 @@ import { Check } from "@mui/icons-material";
 export interface PopoverItemProps {
   title: string;
   active?: boolean;
-  icon: React.ElementType;
+  icon?: React.ElementType;
   onClick?: () => void;
 }
 
@@ -32,7 +32,7 @@ export function PopoverItem({
   return (
     <StyledButton color={active ? "primary" : "inherit"} onClick={onClick}>
       <span style={{ marginRight: "1.5rem" }}>{title}</span>
-      <SvgIcon component={icon} inheritViewBox />
+      {icon && <SvgIcon component={icon} inheritViewBox />}
     </StyledButton>
   );
 }

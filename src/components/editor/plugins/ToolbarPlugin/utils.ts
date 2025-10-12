@@ -27,7 +27,7 @@ import { $getNearestBlockElementAncestorOrThrow } from "@lexical/utils";
 
 import type { TextColor } from "../../ui";
 import { INSERT_IMAGE_COMMAND } from "../../plugins";
-import { TEXT_ALIGNMENT_OPTIONS } from "./config";
+import { SUPPORTED_URL_PROTOCOLS, TEXT_ALIGNMENT_OPTIONS } from "./config";
 
 export function handleUndo(editor: LexicalEditor) {
   editor.dispatchCommand(UNDO_COMMAND, undefined);
@@ -173,4 +173,20 @@ export function rotateTextAlignment(editor: LexicalEditor) {
       );
     }
   });
+}
+
+// Source: https://github.com/facebook/lexical/blob/main/packages/lexical-playground/src/utils/url.ts
+// Original author(s) credited accordingly. This code was reused for reference.
+
+export function sanitizeUrl(url: string): string {
+  try {
+    const parsedUrl = new URL(url);
+    // eslint-disable-next-line no-script-url
+    if (!SUPPORTED_URL_PROTOCOLS.has(parsedUrl.protocol)) {
+      return "about:blank";
+    }
+  } catch {
+    return url;
+  }
+  return url;
 }

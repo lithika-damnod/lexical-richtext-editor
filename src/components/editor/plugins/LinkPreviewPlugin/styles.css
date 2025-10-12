@@ -1,0 +1,18 @@
+.preview__container {
+  display: flex;
+  border-radius: 6px;
+  background-color: #eaeaea;
+  margin-top: 5px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.preview__content {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.preview__url {
+  margin-bottom: 2px;
+}

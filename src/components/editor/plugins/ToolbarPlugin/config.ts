@@ -194,3 +194,11 @@ export const TEXT_ALIGNMENT_OPTIONS: {
   { format: "right", icon: RightAlignIcon },
   { format: "justify", icon: JustifyAlignIcon },
 ];
+
+export const SUPPORTED_URL_PROTOCOLS = new Set([
+  "http:",
+  "https:",
+  "mailto:",
+  "sms:",
+  "tel:",
+]);
