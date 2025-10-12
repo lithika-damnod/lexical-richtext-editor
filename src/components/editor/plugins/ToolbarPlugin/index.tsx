@@ -10,10 +10,21 @@ import {
   type ToolbarButtonProps,
   ToolbarBlockTypeButton,
   ColorPickerPopover,
+  ToolbarDropdownButton,
 } from "../../ui";
-import { handleRedo, handleUndo, setTextColor } from "./utils";
+import {
+  getCodeLanguage,
+  handleRedo,
+  handleUndo,
+  setCodeLanguage,
+  setTextColor,
+} from "./utils";
 import { usePopover, useToolbarState } from "../../hooks";
-import { getBlockTypeOptions, getFormatButtonOptions } from "./config";
+import {
+  CODE_LANGUAGE_OPTIONS_SHIKI,
+  getBlockTypeOptions,
+  getFormatButtonOptions,
+} from "./config";
 import "./styles.css";
 
 export function ToolbarPlugin() {
@@ -48,6 +59,7 @@ export function ToolbarPlugin() {
   const blockTypePopover = usePopover();
   const toolbarOverflowPopover = usePopover();
   const textColorPopover = usePopover();
+  const codeLanguagePopover = usePopover();
 
   return (
     <div className="toolbar">
@@ -72,39 +84,81 @@ export function ToolbarPlugin() {
         />
       </div>
       <div className="toolbar-formatting-container">
-        <div className="toolbar-text-type-group">
-          <ToolbarBlockTypeButton
-            icon={
-              blockOptions.find((option) => option.active)?.icon ?? TextIcon
-            }
-            opened={blockTypePopover.isOpen}
-            onClick={blockTypePopover.open}
-          />
-        </div>
-        <div className="toolbar-formatting-group">
-          {formatOptions.visible.map((button, index) => (
-            <ToolbarButton
-              key={index}
-              title={button.title}
-              active={button.active}
-              icon={button.icon}
-              onClick={(event) => {
-                if (button.title === "Text Color")
-                  return event && textColorPopover.open(event);
-
-                button.onClick?.();
+        {blockOptions.find((option) => option.active)?.title ===
+        "Code Block" ? (
+          <>
+            <div className="toolbar-code-language-group">
+              <ToolbarDropdownButton
+                label={getCodeLanguage(editor)}
+                opened={codeLanguagePopover.isOpen}
+                onClick={codeLanguagePopover.open}
+              />
+            </div>
+            <Popover
+              open={codeLanguagePopover.isOpen}
+              anchorEl={codeLanguagePopover.anchorEl}
+              onClose={codeLanguagePopover.close}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
               }}
-            />
-          ))}
-          {!isScreenLargeWidth && (
-            <ToolbarButton
-              title="More"
-              active={false}
-              icon={MenuIcon}
-              onClick={(event) => event && toolbarOverflowPopover.open(event)}
-            />
-          )}
-        </div>
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+            >
+              {CODE_LANGUAGE_OPTIONS_SHIKI.map((language, index) => (
+                <PopoverItem
+                  key={index}
+                  title={language[1]}
+                  active={getCodeLanguage(editor) === language[0]}
+                  onClick={() => {
+                    setCodeLanguage(editor, language[0]);
+                    codeLanguagePopover.close();
+                  }}
+                />
+              ))}
+            </Popover>
+          </>
+        ) : (
+          <>
+            <div className="toolbar-text-type-group">
+              <ToolbarBlockTypeButton
+                icon={
+                  blockOptions.find((option) => option.active)?.icon ?? TextIcon
+                }
+                opened={blockTypePopover.isOpen}
+                onClick={blockTypePopover.open}
+              />
+            </div>
+            <div className="toolbar-formatting-group">
+              {formatOptions.visible.map((button, index) => (
+                <ToolbarButton
+                  key={index}
+                  title={button.title}
+                  active={button.active}
+                  icon={button.icon}
+                  onClick={(event) => {
+                    if (button.title === "Text Color")
+                      return event && textColorPopover.open(event);
+
+                    button.onClick?.();
+                  }}
+                />
+              ))}
+              {!isScreenLargeWidth && (
+                <ToolbarButton
+                  title="More"
+                  active={false}
+                  icon={MenuIcon}
+                  onClick={(event) =>
+                    event && toolbarOverflowPopover.open(event)
+                  }
+                />
+              )}
+            </div>
+          </>
+        )}
       </div>
       <Popover
         open={blockTypePopover.isOpen}
@@ -126,8 +180,8 @@ export function ToolbarPlugin() {
             active={option.active}
             icon={option.icon}
             onClick={() => {
+              blockTypePopover.close();
               if (option.onClick) option.onClick();
-              setTimeout(blockTypePopover.close, 0);
             }}
           />
         ))}

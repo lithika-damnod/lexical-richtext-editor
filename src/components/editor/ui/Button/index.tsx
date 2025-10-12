@@ -14,6 +14,11 @@ export interface ToolbarBlockTypeButtonProps {
   opened: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
+export interface ToolbarDropdownButtonProps {
+  label: string;
+  opened: boolean;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
 
 export function ToolbarButton({
   title,
@@ -46,6 +51,19 @@ export function ToolbarBlockTypeButton({
       <SvgIcon component={icon} inheritViewBox />
       <SvgIcon component={ChevronIcon} inheritViewBox />
     </StyledButton>
+  );
+}
+
+export function ToolbarDropdownButton({
+  label,
+  opened = false,
+  onClick,
+}: ToolbarDropdownButtonProps) {
+  return (
+    <StyledDropdownButton disableRipple onClick={onClick} opened={opened}>
+      <span>{label}</span>
+      <SvgIcon component={ChevronIcon} inheritViewBox />
+    </StyledDropdownButton>
   );
 }
 
@@ -107,3 +125,32 @@ const StyledIconButton = styled(IconButton)(({ theme }) => {
     },
   };
 });
+
+const StyledDropdownButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== "opened",
+})<{ opened: boolean }>(({ opened }) => ({
+  height: 36,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "transparent !important",
+  marginRight: "-1rem",
+  textTransform: "capitalize",
+  fontSize: 16,
+  color: opened ? "black" : "#808080",
+
+  "& .MuiSvgIcon-root": {
+    fontSize: "40px",
+    color: opened ? "black" : "#808080",
+    transition: "color 0.15s ease-in-out",
+  },
+
+  "& .MuiSvgIcon-root:nth-child(2)": {
+    color: opened ? "#808080" : "#ABABAB",
+    transform: opened ? "rotate(180deg)" : "rotate(0deg)",
+  },
+
+  "&:hover .MuiSvgIcon-root:nth-child(2)": {
+    color: "#808080",
+  },
+}));

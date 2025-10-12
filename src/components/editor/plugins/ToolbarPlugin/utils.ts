@@ -21,7 +21,7 @@ import {
   $createQuoteNode,
   type HeadingTagType,
 } from "@lexical/rich-text";
-import { $createCodeNode } from "@lexical/code";
+import { $createCodeNode, $isCodeNode } from "@lexical/code";
 import { $patchStyleText } from "@lexical/selection";
 import { $getNearestBlockElementAncestorOrThrow } from "@lexical/utils";
 
@@ -171,6 +171,34 @@ export function rotateTextAlignment(editor: LexicalEditor) {
             TEXT_ALIGNMENT_OPTIONS.length
         ].format
       );
+    }
+  });
+}
+
+export function getCodeLanguage(editor: LexicalEditor): string {
+  let language: string | null | undefined = null;
+
+  editor.read(() => {
+    const selection = $getSelection();
+    if ($isRangeSelection(selection)) {
+      const node = selection.anchor.getNode().getTopLevelElementOrThrow();
+      if ($isCodeNode(node)) {
+        language = node.getLanguage();
+      }
+    }
+  });
+
+  return language ?? "Select Language";
+}
+
+export function setCodeLanguage(editor: LexicalEditor, language: string) {
+  editor.update(() => {
+    const selection = $getSelection();
+    if ($isRangeSelection(selection)) {
+      const node = selection.anchor.getNode().getTopLevelElementOrThrow();
+      if ($isCodeNode(node)) {
+        node.setLanguage(language);
+      }
     }
   });
 }

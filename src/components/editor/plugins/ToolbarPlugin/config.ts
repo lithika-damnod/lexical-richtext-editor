@@ -19,6 +19,7 @@ import {
 } from "./utils";
 import type { BlockType, EditorStyleState } from "../../hooks";
 import type { PopoverItemProps, ToolbarButtonProps } from "../../ui";
+import { getCodeLanguageOptions as getCodeLanguageOptionsShiki } from "@lexical/code-shiki";
 import {
   BoldIcon,
   CenterAlignIcon,
@@ -202,3 +203,28 @@ export const SUPPORTED_URL_PROTOCOLS = new Set([
   "sms:",
   "tel:",
 ]);
+
+export const CODE_LANGUAGE_OPTIONS_SHIKI: [string, string][] =
+  getCodeLanguageOptionsShiki().filter((option) =>
+    [
+      "c",
+      "clike",
+      "cpp",
+      "css",
+      "html",
+      "java",
+      "js",
+      "javascript",
+      "markdown",
+      "objc",
+      "objective-c",
+      "plain",
+      "powershell",
+      "py",
+      "python",
+      "rust",
+      "sql",
+      "typescript",
+      "xml",
+    ].includes(option[0])
+  );

@@ -141,21 +141,3 @@
   position: relative;
   margin-top: 10px;
 }
-
-.editor-code::after {
-  content: attr(data-highlight-language);
-  font-family: "Roboto", sans-serif;
-  font-weight: 450;
-  font-size: 13px;
-  text-transform: capitalize;
-  position: absolute;
-  top: 5px;
-  left: 10px;
-  color: black;
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-
-.editor-code:hover::after {
-  opacity: 0.5;
-}
