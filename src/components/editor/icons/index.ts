@@ -23,6 +23,7 @@ import RightAlignIcon from "./right.svg?react";
 import JustifyAlignIcon from "./justify.svg?react";
 import IndentLeftIcon from "./indent-left.svg?react";
 import IndentRightIcon from "./indent-right.svg?react";
+import BinIcon from "./bin.svg?react";
 
 export {
   UndoIcon,
@@ -50,4 +51,5 @@ export {
   IndentLeftIcon,
   IndentRightIcon,
   ChevronIcon,
+  BinIcon,
 };

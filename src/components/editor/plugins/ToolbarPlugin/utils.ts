@@ -14,7 +14,7 @@ import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
 } from "@lexical/list";
-import { $toggleLink } from "@lexical/link";
+import { TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { $setBlocksType } from "@lexical/selection";
 import {
   $createHeadingNode,
@@ -107,12 +107,11 @@ export function toggleOrderedList(editor: LexicalEditor) {
   editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
 }
 
-// TODO:
 export function insertLink(editor: LexicalEditor) {
   editor.update(() => {
     const selection = $getSelection();
     if (selection) {
-      $toggleLink("https://example.com");
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, "");
     }
   });
 }

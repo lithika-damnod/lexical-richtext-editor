@@ -5,14 +5,24 @@
   margin-top: 5px;
   align-items: center;
   justify-content: space-between;
+  margin-top: 10px;
+  height: 32px;
+  overflow: hidden;
 }
 
 .preview__content {
   display: flex;
   align-items: center;
   gap: 0.2rem;
+  font-weight: 450;
+  margin-right: 0.6rem;
 }
 
 .preview__url {
   margin-bottom: 2px;
+}
+
+.preview__actions {
+  display: flex;
+  gap: 0.5rem;
 }

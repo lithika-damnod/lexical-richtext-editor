@@ -2,15 +2,24 @@ import { useEffect, useState, type JSX } from "react";
 import { $getSelection, $isRangeSelection } from "lexical";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { mergeRegister } from "@lexical/utils";
-import { $isLinkNode } from "@lexical/link";
-import { Box, Button, Grow, Popper, SvgIcon } from "@mui/material";
-import { LinkIcon } from "../../icons";
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
+import {
+  Box,
+  ButtonBase,
+  Grow,
+  InputAdornment,
+  Popper,
+  SvgIcon,
+  TextField,
+} from "@mui/material";
+import { BinIcon, LinkIcon } from "../../icons";
 import "./styles.css";
 
 export function LinkPreviewPlugin(): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [open, setOpen] = useState(false);
+  const [url, setUrl] = useState("");
 
   const toggleLinkPreview = (event: MouseEvent) => {
     event.preventDefault();
@@ -20,7 +29,44 @@ export function LinkPreviewPlugin(): JSX.Element | null {
     if (parentAnchor) {
       setAnchorEl(parentAnchor as any);
       setOpen(true);
-    } else setOpen(false);
+    } else close();
+  };
+
+  const deleteNode = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if (!$isRangeSelection(selection) || !selection.isCollapsed()) return;
+
+      const anchorNode = selection.anchor.getNode();
+      const parent = anchorNode.getParent();
+
+      if ($isLinkNode(parent)) {
+        close();
+        setTimeout(() => {
+          editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+        });
+      }
+    });
+  };
+
+  const withoutProtocol = (url: string): string => {
+    return url.trim().replace(/(^\w+:|^)\/\//, "");
+  };
+
+  const close = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if (!$isRangeSelection(selection) || !selection.isCollapsed()) return;
+
+      const anchorNode = selection.anchor.getNode();
+      const parent = anchorNode.getParent();
+
+      if ($isLinkNode(parent)) {
+        parent.setURL("https://" + url);
+      }
+    });
+
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -34,6 +80,7 @@ export function LinkPreviewPlugin(): JSX.Element | null {
           const parent = anchorNode.getParent();
 
           if ($isLinkNode(parent)) {
+            setUrl(withoutProtocol(parent.getURL()));
           }
         });
       }),
@@ -57,7 +104,10 @@ export function LinkPreviewPlugin(): JSX.Element | null {
         },
         {
           name: "preventOverflow",
-          enabled: false,
+          enabled: true,
+          options: {
+            padding: 8,
+          },
         },
       ]}
       transition
@@ -71,31 +121,48 @@ export function LinkPreviewPlugin(): JSX.Element | null {
                   component={LinkIcon}
                   inheritViewBox
                   sx={{
-                    fontSize: "36px",
+                    fontSize: "33px",
                   }}
                 />
               </div>
-              <span className="preview__url">https://example.com/example</span>
+              <span className="preview__url">
+                <TextField
+                  variant="standard"
+                  value={url}
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment
+                          position="start"
+                          sx={{ marginRight: "2px" }}
+                        >
+                          https://
+                        </InputAdornment>
+                      ),
+                      disableUnderline: true,
+                    },
+                  }}
+                  onChange={(e) => setUrl(withoutProtocol(e.target.value))}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      close();
+                    }
+                  }}
+                />
+              </span>
             </div>
-            <div className="reference__actions">
-              {/* <Button>
+            <div className="preview__actions">
+              <ButtonBase onClick={deleteNode}>
                 <SvgIcon
-                  component={LinkIcon}
+                  component={BinIcon}
                   inheritViewBox
                   sx={{
-                    fontSize: "32px",
+                    fontSize: "42px",
+                    color: "#E91616",
                   }}
                 />
-              </Button>
-              <Button>
-                <SvgIcon
-                  component={LinkIcon}
-                  inheritViewBox
-                  sx={{
-                    fontSize: "32px",
-                  }}
-                />
-              </Button> */}
+              </ButtonBase>
             </div>
           </Box>
         </Grow>
