@@ -2,35 +2,72 @@ import {
   LexicalComposer,
   type InitialConfigType,
 } from "@lexical/react/LexicalComposer";
-import { useImperativeHandle, type Ref } from "react";
+import { lazy, Suspense, useImperativeHandle, type Ref } from "react";
 import { ThemeProvider } from "@mui/material";
 import { theme, MuiEditorTheme } from "@/components/editor/theme";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-import {
-  ToolbarPlugin,
-  CodeHighlightShikiPlugin,
-  ImagePlugin,
-  DragDropPastePlugin,
-  LinkPreviewPlugin,
-} from "./plugins";
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
-import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
-import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
-
+// core nodes
 import { ImageNode } from "./nodes";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { LinkNode } from "@lexical/link";
 import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { ListItemNode, ListNode } from "@lexical/list";
-import { $generateHtmlFromNodes } from "@lexical/html";
+
+// helpers
 import { TRANSFORMERS } from "@lexical/markdown";
+
+// essential plugins
+import { ToolbarPlugin } from "./plugins";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+
+// lazy loaded plugins
+const HistoryPlugin = lazy(() =>
+  import("@lexical/react/LexicalHistoryPlugin").then((m) => ({
+    default: m.HistoryPlugin,
+  }))
+);
+const LinkPlugin = lazy(() =>
+  import("@lexical/react/LexicalLinkPlugin").then((m) => ({
+    default: m.LinkPlugin,
+  }))
+);
+const ListPlugin = lazy(() =>
+  import("@lexical/react/LexicalListPlugin").then((m) => ({
+    default: m.ListPlugin,
+  }))
+);
+const TabIndentationPlugin = lazy(() =>
+  import("@lexical/react/LexicalTabIndentationPlugin").then((m) => ({
+    default: m.TabIndentationPlugin,
+  }))
+);
+const MarkdownShortcutPlugin = lazy(() =>
+  import("@lexical/react/LexicalMarkdownShortcutPlugin").then((m) => ({
+    default: m.MarkdownShortcutPlugin,
+  }))
+);
+
+const CodeHighlightShikiPlugin = lazy(() =>
+  import("./plugins/CodeHighlightShikiPlugin").then((m) => ({
+    default: m.CodeHighlightShikiPlugin,
+  }))
+);
+const ImagePlugin = lazy(() =>
+  import("./plugins/ImagePlugin").then((m) => ({ default: m.ImagePlugin }))
+);
+const DragDropPastePlugin = lazy(() =>
+  import("./plugins/DragDropPastePlugin").then((m) => ({
+    default: m.DragDropPastePlugin,
+  }))
+);
+const LinkPreviewPlugin = lazy(() =>
+  import("./plugins/LinkPreviewPlugin").then((m) => ({
+    default: m.LinkPreviewPlugin,
+  }))
+);
 
 import "./theme.css";
 import "./styles.css";
@@ -54,7 +91,7 @@ const editorConfig: InitialConfigType = {
 };
 
 export type EditorHandle = {
-  export: () => string;
+  export: () => Promise<string>;
 };
 
 export default function Editor({ ref }: { ref?: Ref<EditorHandle> }) {
@@ -68,16 +105,17 @@ export default function Editor({ ref }: { ref?: Ref<EditorHandle> }) {
             contentEditable={<ContentEditable className="content-editable" />}
           />
         </div>
-        <HistoryPlugin />
-        <AutoFocusPlugin />
-        <TabIndentationPlugin />
-        <LinkPlugin />
-        <ListPlugin />
-        <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-        <CodeHighlightShikiPlugin />
-        <ImagePlugin />
-        <DragDropPastePlugin />
-        <LinkPreviewPlugin />
+        <Suspense fallback={null}>
+          <HistoryPlugin />
+          <TabIndentationPlugin />
+          <LinkPlugin />
+          <ListPlugin />
+          <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+          <CodeHighlightShikiPlugin />
+          <ImagePlugin />
+          <DragDropPastePlugin />
+          <LinkPreviewPlugin />
+        </Suspense>
         <EditorHandleBridge ref={ref} />
       </LexicalComposer>
     </ThemeProvider>
@@ -89,7 +127,9 @@ function EditorHandleBridge({ ref }: { ref?: Ref<EditorHandle> }) {
 
   useImperativeHandle(ref, (): EditorHandle => {
     return {
-      export: () => {
+      export: async () => {
+        const { $generateHtmlFromNodes } = await import("@lexical/html");
+
         let html = "";
         editor.read(() => {
           html = $generateHtmlFromNodes(editor, null);
